@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database History</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- DataTables CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Main Page</a>
+        <h1>Patient History</h1>
+
+        <div
+            style="margin-bottom: 20px; background-color: #eee; padding: 15px; border-radius: 5px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <strong>Filter by Date:</strong>
+            <label for="minDate">From:</label>
+            <input type="date" id="minDate" name="minDate">
+            <label for="maxDate">To:</label>
+            <input type="date" id="maxDate" name="maxDate">
+            <button id="clearDates"
+                style="padding: 5px 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 3px;">Clear
+                Date Filter</button>
+        </div>
+
+        <div id="statsContainer" style="margin: 10px 0; font-size: 1.1em; visibility: hidden;">
+            <strong>Number of tests: </strong><span id="testCount">0</span>
+        </div>
+
+        <table id="historyTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Tests</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+                <tr>
+                    <td colspan="4" style="text-align:center;">Loading data...</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Tests</th>
+                    <th>Total: <span id="totalPrice">0</span></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script type="module" src="history.js"></script>
+
+</body>
+
+</html>

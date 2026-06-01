@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Lab Patient Report</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script type="module" src="script.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .select2-container {
+      width: 100% !important;
+    }
+
+    .select2-selection--multiple {
+      min-height: 44px;
+      padding: 4px 8px;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    .select2-selection__choice {
+      background-color: #007BFF;
+      color: white;
+      font-size: 14px;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .select2-selection__choice__remove {
+      color: white !important;
+      margin-right: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline !important;
+    }
+
+    .select2-selection__choice__remove:hover {
+      color: #ffcccc !important;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .actions button {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .actions button:hover {
+      color: #007BFF;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Lab to Lab Report - El Assema</h1>
+  <label for="name">Patient Name:</label>
+  <input type="text" id="name" />
+  <label for="age">Patient Age:</label>
+  <input type="number" id="age" />
+  <label for="tests">Select Medical Tests:</label>
+  <select id="tests" multiple>
+    <option value="17 Hydroxy Progesterone-150">17 Hydroxy Progesterone - 150</option>
+    <option value="17 ketosteroids-500">17 ketosteroids - 500</option>
+    <option value="A/G Ratio-25">A/G Ratio - 25</option>
+    <option value="ABO (Blood Group)-15">ABO (Blood Group) - 15</option>
+    <option value="ACE (Angiotensin Converting Enzyme)-500">ACE (Angiotensin Converting Enzyme) - 500</option>
+    <option value="Acid Phosphatase (Prostatic - PAP)-95">Acid Phosphatase (Prostatic - PAP) - 95</option>
+    <option value="Acid Phosphatase (Total)-95">Acid Phosphatase (Total) - 95</option>
+    <option value="ACTH AM-100">ACTH AM - 100</option>
+    <option value="ACTH PM-100">ACTH PM - 100</option>
+    <option value="Acetyl choline Receptor Abs-1200">Acetyl choline Receptor Abs - 1200</option>
+    <option value="ADA (Adenosine Deaminase)-100">ADA (Adenosine Deaminase) - 100</option>
+    <option value="AFP in Serum-74">AFP in Serum - 74</option>
+    <option value="Urine Albumin-15">Urine Albumin - 15</option>
+    <option value="Albumin / Creatinine Ratio-50">Albumin / Creatinine Ratio - 50</option>
+    <option value="Albumin in CSF-45">Albumin in CSF - 45</option>
+    <option value="Alcohol in Serum quantitative-300">Alcohol in Serum quantitative - 300</option>
+    <option value="Aldosterone-300">Aldosterone - 300</option>
+    <option value="Alkaline Phosphatase-10">Alkaline Phosphatase - 10</option>
+    <option value="Alpha 1 Antitrypsin-100">Alpha 1 Antitrypsin - 100</option>
+    <option value="ALT (SGPT)-10">ALT (SGPT) - 10</option>
+    <option value="AMA (Anti Mitochondrial Abs)-240">AMA (Anti Mitochondrial Abs) - 240</option>
+    <option value="AMH (Anti Mullerian Hormone)-225">AMH (Anti Mullerian Hormone) - 225</option>
+    <option value="Ammonia (NH3 )-85">Ammonia (NH3 ) - 85</option>
+    <option value="Amphetamine in Urine-80">Amphetamine in Urine - 80</option>
+    <option value="Amylase-28">Amylase - 28</option>
+    <option value="Amylase in urine-28">Amylase in urine - 28</option>
+    <option value="ANA (Anti Nuclear Abs) Elisa-120">ANA (Anti Nuclear Abs) Elisa - 120</option>
+    <option value="ANA IF (Anti-Nuclear Abs)-250">ANA IF (Anti-Nuclear Abs) - 250</option>
+    <option value="ANCA C (Antineutrophil Cytoplasmic Abs)-190">ANCA C (Antineutrophil Cytoplasmic Abs) - 190</option>
+    <option value="ANCA P (Antineutrophil Cytoplasmic Abs)-190">ANCA P (Antineutrophil Cytoplasmic Abs) - 190</option>
+    <option value="Anion gap-200">Anion gap - 200</option>
+    <option value="Anti Cardiolipin IgG-140">Anti Cardiolipin IgG - 140</option>
+    <option value="Anti Cardiolipin IgM-140">Anti Cardiolipin IgM - 140</option>
+    <option value="Anti CCP Abs-175">Anti CCP Abs - 175</option>
+    <option value="Anti Jo 1 Abs-750">Anti Jo 1 Abs - 750</option>
+    <option value="Anti La (SSB)-250">Anti La (SSB) - 250</option>
+    <option value="Anti MCV Antibodies-600">Anti MCV Antibodies - 600</option>
+    <option value="Anti-Microsomal Abs-120">Anti-Microsomal Abs - 120</option>
+    <option value="Anti thyroid peroxidase Abs-120">Anti thyroid peroxidase Abs - 120</option>
+    <option value="Anti-Phospholipids IgG-120">Anti-Phospholipids IgG - 120</option>
+    <option value="Anti-Phospholipids IgM-120">Anti-Phospholipids IgM - 120</option>
+    <option value="Anti RH Abs Titer-50">Anti RH Abs Titer - 50</option>
+    <option value="Anti Ro (SSA)-250">Anti Ro (SSA) - 250</option>
+    <option value="Anti sacromyces Ab IgA (ASCA)-385">Anti sacromyces Ab IgA (ASCA) - 385</option>
+    <option value="Anti-sacromyces Ab IgG (ASCA)-385">Anti-sacromyces Ab IgG (ASCA) - 385</option>
+    <option value="Anti Scl 70-250">Anti Scl 70 - 250</option>
+    <option value="Anti-Smith Abs-250">Anti-Smith Abs - 250</option>
+    <option value="Anti-Smooth Muscle Abs (ASMA)-200">Anti-Smooth Muscle Abs (ASMA) - 200</option>
+    <option value="Anti-Sperm in Cervical-150">Anti Sperm in Cervical - 150</option>
+    <option value="Anti -Sperm in Semen-150">Anti Sperm in Semen - 150</option>
+    <option value="Anti-Sperm in Serum-150">Anti-Sperm in Serum - 150</option>
+    <option value="Anti-Streptolysin O Titer (ASOT)-25"> ASOT - 25</option>
+    <option value="Anti-Thrombin III-120">Anti Thrombin III - 120</option>
+    <option value="Anti-Thyroglobulin (ATG)-110">Anti Thyroglobulin (ATG) - 110</option>
+    <option value="Apo lipoprotein A-150">Apo lipoprotein A - 150</option>
+    <option value="Apo lipoprotein B-150">Apo lipoprotein B - 150</option>
+    <option value="Ascetic LDH/Serum LDH-18">Ascetic LDH/Serum LDH - 18</option>
+    <option value="AST (SGOT)-10">AST (SGOT) - 10</option>
+    <option value="Amyloid A">Amyloid A - 230</option>
+    <option value="Barbiturates-80">Barbiturates - 80</option>
+    <option value="Bence Jones Protein-35">Bence Jones Protein - 35</option>
+    <option value="Benzodiazepine-80">Benzodiazepine - 80</option>
+    <option value="Beta 2 Microglobulin-120">Beta 2 Microglobulin - 120</option>
+    <option value="B HCG (Quantitative)-53">B HCG (Quantitative) - 53</option>
+    <option value="Bicarbonate-80">Bicarbonate - 80</option>
+    <option value="Bilharzia Ab-100">Bilharzia Ab - 100</option>
+    <option value="Bilharzia Ag in urine-100">Bilharzia Ag in urine - 100</option>
+    <option value="Bilirubin (Direct)-10">Bilirubin (Direct) - 10</option>
+    <option value="Bilirubin (Total)-10">Bilirubin (Total) - 10</option>
+    <option value="Blood gases-200">Blood gases - 200</option>
+    <option value="Blood Urea-10">Blood Urea - 10</option>
+    <option value="Brucella (Latex)-35">Brucella (Latex) - 35</option>
+    <option value="Brucella Antibodies IgG-180">Brucella Antibodies IgG - 180</option>
+    <option value="Brucella Antibodies IgM-180">Brucella Antibodies IgM - 180</option>
+    <option value="BUN-10">BUN - 10</option>
+    <option value="C3 (Complement 3)-55">C3 (Complement 3) - 55</option>
+    <option value="C4 (Complement 4)-55">C4 (Complement 4) - 55</option>
+    <option value="CA 125">CA 125 - 93</option>
+    <option value="CA 15.3-93">CA 15.3 - 93</option>
+    <option value="CA 19.9-93">CA 19.9 - 93</option>
+    <option value="Calcium in urine-10">Calcium in urine - 10</option>
+    <option value="Calcium (Ionized)-20">Calcium (Ionized) - 20</option>
+    <option value="Calcium (Total)-10">Calcium (Total) - 10</option>
+    <option value="Calcium / Creatinine Ratio-30">Calcium / Creatinine Ratio - 30</option>
+    <option value="Calprotectin-195">Calprotectin - 195</option>
+    <option value="Cannabinoids-80">Cannabinoids - 80</option>
+    <option value="Catecholamine-900">Catecholamine - 900</option>
+    <option value="Complete blood Count (CBC)-18">Complete blood Count (CBC) - 18</option>
+    <option value="CEA-73">CEA - 73</option>
+    <option value="Ceruloplasmin-70">Ceruloplasmin - 70</option>
+    <option value="Chloride-45">Chloride - 45</option>
+    <option value="Chloride in urine-22">Chloride in urine - 22</option>
+    <option value="Cholesterol-10">Cholesterol - 10</option>
+    <option value="CK MB-50">CK MB - 50</option>
+    <option value="CK Total (CPK)-18">CK Total (CPK) - 18</option>
+    <option value="Calcitonin-600">Calcitonin - 600</option>
+    <option value="CMV DNA / PCR-500">CMV DNA / PCR - 500</option>
+    <option value="CMV IgG-70">CMV IgG - 70</option>
+    <option value="CMV IgM-70">CMV IgM - 70</option>
+    <option value="Cocaine Urine-80">Cocaine Urine - 80</option>
+    <option value="Coombs Test (Direct)-30">Coombs Test (Direct) - 30</option>
+    <option value="Coombs Test (Indirect)-45">Coombs Test (Indirect) - 45</option>
+    <option value="Copper (cu++)-65">Serum Copper - 65</option>
+    <option value="Copper in urine-65">Copper in urine - 65</option>
+    <option value="Cortisol (Free), urine-85">Cortisol (Free), urine - 85</option>
+    <option value="Cortisol AM-90">Cortisol AM - 90</option>
+    <option value="Cortisol PM-90">Cortisol PM - 90</option>
+    <option value="C Peptide Fasting-95">C Peptide Fasting - 95</option>
+    <option value="C Peptide PP-95">C Peptide PP - 95</option>
+    <option value="Serum Creatinine-10">Serum Creatinine - 10</option>
+    <option value="Creatinine Clearance-28">Creatinine Clearance - 28</option>
+    <option value="Creatinine in Urine-10">Creatinine in Urine - 10</option>
+    <option value="CRP (C-Reactive Protein)-30">CRP (C Reactive Protein) - 30</option>
+    <option value="Cryoglobulin-200">Cryoglobulin - 200</option>
+    <option value="Culture & Sensitivity -150">Culture & Sensitivity - 150</option>
+    <option value="Culture & Sensitivity Throat Swab -150">Culture & Sensitivity Throat Swab - 150</option>
+    <option value="Culture & Sensitivity ( Anaerobic )-150">Culture & Sensitivity ( Anaerobic ) - 150</option>
+    <option value="Culture & Sensitivity ( Blood )-150">Culture & Sensitivity ( Blood ) - 150</option>
+    <option value="Culture & Sensitivity ( TB)-175">Culture & Sensitivity ( TB) - 175</option>
+    <option value="Culture & Sensitivity (Fungus)-150">Culture & Sensitivity (Fungus) - 150</option>
+    <option value="Culture & Sensitivity (Stool)-80">Culture & Sensitivity (Stool) - 80</option>
+    <option value="Culture & Sensitivity (Urine)-130">Culture & Sensitivity (Urine) - 130</option>
+    <option value="Cyclosporine (Sand immune)-300">Cyclosporine (Sand immune) - 300</option>
+    <option value="D dimer-70">D dimer - 70</option>
+    <option value="Depakine (Valproic acid)-100">Depakine (Valproic acid) - 100</option>
+    <option value="DHEA-110">DHEA - 110</option>
+    <option value="DHEA S (Dehydroepiandrosterone Sulphate)-110">DHEA S (Dehydroepiandrosterone Sulphate) - 110</option>
+    <option value="Digoxin (Lanoxin)-140">Digoxin (Lanoxin) - 140</option>
+    <option value="DNA (Anti DNA DS)-120">DNA (Anti DNA DS) - 120</option>
+    <option value="DNA (Anti DNA DS) IF-250">DNA (Anti DNA DS) IF - 250</option>
+    <option value="Drug abuse profile-200">Drug abuse profile - 200</option>
+    <option value="EBV PCR-550">EBV PCR - 550</option>
+    <option value="EBV IgG (EBNA)-120">EBV IgG (EBNA) - 120</option>
+    <option value="EBV IgM (EBNA)-120">EBV IgM (EBNA) - 120</option>
+    <option value="EBV (VCA) IgG-120">EBV (VCA) IgG - 120</option>
+    <option value="EBV (VCA) IgM-120">EBV (VCA) IgM - 120</option>
+    <option value="eGFR-50">eGFR - 50</option>
+    <option value="Epanutin (Dilantin)-100">Epanutin (Dilantin) - 100</option>
+    <option value="Erythropoietin (EPO)-500">Erythropoietin (EPO) - 500</option>
+    <option value="Estradiol ( E2 )-50">Estradiol ( E2 ) - 50</option>
+    <option value="EstriolUnconj. (uE3)-290">EstriolUnconj. (uE3) - 290</option>
+    <option value="Fasting Blood Sugar-10">Fasting Blood Sugar - 10</option>
+    <option value="Factor V Leiden by PCR-500">Factor V Leiden by PCR - 500</option>
+    <option value="Factor II mutation by PCR-400">Factor II mutation by PCR - 400</option>
+    <option value="Fasciola Abs-240">Fasciola Abs - 240</option>
+    <option value="Ferritin-40">Ferritin - 40</option>
+    <option value="Filaria Film-45">Filaria Film - 45</option>
+    <option value="Fibrin Degradation Products (FDPs)-120">Fibrin Degradation Products (FDPs) - 120</option>
+    <option value="Fibrinogen-80">Fibrinogen - 80</option>
+    <option value="Folic Acid-210">Folic Acid - 210</option>
+    <option value="FMF PCR 19 mutations-1200">FMF PCR 19 mutations - 1200</option>
+    <option value="Fructosamine-50">Fructosamine - 50</option>
+    <option value="Fructose in Semen-45">Fructose in Semen - 45</option>
+    <option value="FSH-38">FSH - 38</option>
+    <option value="Fungus KOH preparation-60">Fungus KOH preparation - 60</option>
+    <option value="Blood Sugar 2hrs PP-10">Blood Sugar 2hrs PP - 10</option>
+    <option value="G6PD-55">G6PD - 55</option>
+    <option value="GGT-15">GGT - 15</option>
+    <option value="Glucose-10">Glucose - 10</option>
+    <option value="Glucose in CSF-15">Glucose in CSF - 15</option>
+    <option value="Gram staining-18">Gram staining - 18</option>
+    <option value="Growth Hormone-90">Growth Hormone - 90</option>
+    <option value="Hematocrit HCT-15">Hematocrit HCT - 15</option>
+    <option value="Hemoglobin Hb-15">Hemoglobin Hb - 15</option>
+    <option value="Haptoglobin-90">Haptoglobin - 90</option>
+    <option value="HAV IgG-65">HAV IgG - 65</option>
+    <option value="HAV IgM-65">HAV IgM - 65</option>
+    <option value="Glycosylated Hb (HbA1c)	-35">HbA1C (Glycated Haemoglubin) - 35</option>
+    <option value="HBc IgG Total-60">HBc IgG Total - 60</option>
+    <option value="HBc IgM-60">HBc IgM - 60</option>
+    <option value="HBe Ab.-60">HBe Ab. - 60</option>
+    <option value="HBe Ag.-60">HBe Ag. - 60</option>
+    <option value="HBs Ab.-60">HBs Ab. - 60</option>
+    <option value="HBs Ag.-50">HBs Ag. - 50</option>
+    <option value="HBV DNA PCR Qualitative-225">HBV DNA PCR Qualitative - 225</option>
+    <option value="HBV DNA PCR Quantitative-225">HBV DNA PCR Quantitative - 225</option>
+    <option value="HCV IgG-45">HCV IgG - 45</option>
+    <option value="HDL Cholesterol-22">HDL Cholesterol - 22</option>
+    <option value="Helicobacter Pylori Abs-70">Helicobacter Pylori Abs - 70</option>
+    <option value="Helicobacter Pylori Ag.-70">Helicobacter Pylori Ag. - 70</option>
+    <option value="Helicobacter Pylori IgA-70">Helicobacter Pylori IgA - 70</option>
+    <option value="Helicobacter Pylori IgM-70">Helicobacter Pylori IgM - 70</option>
+    <option value="Hemoglobin electrophoresis-180">Hemoglobin electrophoresis - 180</option>
+    <option value="Opiate (morphine, Heroin)-40">Opiate (morphine, Heroin) - 40</option>
+    <option value="HIV 1&2 Ag/Ab Combo-85">HIV 1&2 Ag/Ab Combo - 85</option>
+    <option value="HIV RNA Qualitative PCR-800">HIV RNA Qualitative PCR - 800</option>
+    <option value="HOMA IR-90">HOMA-IR - 90</option>
+    <option value="Homocysteine-290">Homocysteine - 290</option>
+    <option value="HSV I IgG (Herpes simplex)-70">HSV I IgG (Herpes simplex) - 70</option>
+    <option value="HSV I IgM (Herpes simplex)-70">HSV I IgM (Herpes simplex) - 70</option>
+    <option value="HSV II IgG (Herpes simplex)-70">HSV II IgG (Herpes simplex) - 70</option>
+    <option value="HSV II IgM (Herpes simplex)-70">HSV II IgM (Herpes simplex) - 70</option>
+    <option value="Hydatid Abs-100">Hydatid Abs - 100</option>
+    <option value="IgA-60">IgA - 60</option>
+    <option value="IgE - Total-80">IgE - Total - 80</option>
+    <option value="IgE for milk allergy RAST-1350">IgE for milk allergy RAST - 1350</option>
+    <option value="IgE specific for food allergy RAST-1350">IgE specific for food allergy RAST - 1350</option>
+    <option value="IgE specific for inhalant allergy RAST-1350">IgE specific for inhalant allergy RAST - 1350</option>
+    <option value="IgG-60">IgG - 60</option>
+    <option value="IgM-60">IgM - 60</option>
+    <option value="Serum Insulin (Fasting)-90">Serum Insulin (Fasting) - 90</option>
+    <option value="Serum Insulin (2 Hours P.P)-90">Serum Insulin (2 Hours P.P) - 90</option>
+    <option value="Serum Albumin -10">Serum Albumin - 10</option>
+    <option value="Serum Insulin (Random)-90">Serum Insulin (Random) - 90</option>
+    <option value="Interleukin 6 (IL-6)-300">Interleukin 6 (IL-6) - 300</option>
+    <option value="Iron-18">Iron - 18</option>
+    <option value="JAK 2 Mutation-600">JAK 2 Mutation - 600</option>
+    <option value="Lactate-75">Lactate - 75</option>
+    <option value="Lactoferrin in Stool-800">Lactoferrin in Stool - 800</option>
+    <option value="LDH ( Lactate Dehydrogenase )-15">LDH ( Lactate Dehydrogenase ) - 15</option>
+    <option value="LDL Cholesterol-30">LDL - Cholesterol - 30</option>
+    <option value="LH-38">LH - 38</option>
+    <option value="Lipase-30">Lipase - 30</option>
+    <option value="Lipid profile-65">Lipid profile - 65</option>
+    <option value="Lipoprotein a-250">Lipoprotein a - 250</option>
+    <option value="Lithium Li-60">Lithium Li - 60</option>
+    <option value="LKM (Liver Kidney Microsomal Abs.)-250">LKM (Liver Kidney Microsomal Abs.) - 250</option>
+    <option value="Lupus Anticoagulants-120">Lupus Anticoagulants - 120</option>
+    <option value="M2pk (quick schebo test)-1150">M2pk (quick schebo test) - 1150</option>
+    <option value="Magnesium-18">Magnesium - 18</option>
+    <option value="Magnesium in urine-18">Magnesium in urine - 18</option>
+    <option value="Malaria Film-45">Malaria Film - 45</option>
+    <option value="Monospot Test Morphine-80">Monospot Test Morphine - 80</option>
+    <option value="MTHFR-500">MTHFR - 500</option>
+    <option value="Occult Blood in Stool-35">Occult Blood in Stool - 35</option>
+    <option value="Opiates-80">Opiates - 80</option>
+    <option value="Osmolality in Serum-100">Osmolality in Serum - 100</option>
+    <option value="Osmolality in Urine-100">Osmolality in Urine - 100</option>
+    <option value="Osmotic Fragility-50">Osmotic Fragility - 50</option>
+    <option value="Phosphorus-15">Phosphorus - 15</option>
+    <option value="Platelet Antibodies ( Direct )-500">Platelet Antibodies ( Direct ) - 500</option>
+    <option value="Platelet Antibody (Indirect)-500">Platelet Antibody (Indirect) - 500</option>
+    <option value="Platelets Count-15">Platelets Count - 15</option>
+    <option value="Potassium (K)-16">Potassium (K) - 16</option>
+    <option value="Potassium (K) in urine-16">Potassium (K) in urine - 16</option>
+    <option value="Pregnancy Test (BHCG Qualitative) in Serum-25">Pregnancy Test (BHCG Qualitative) in Serum - 25</option>
+    <option value="Pregnancy Test (BHCG Qualitative) in Urine-25">Pregnancy Test (BHCG Qualitative) in Urine - 25</option>
+    <option value="Progesterone-50">Progesterone - 50</option>
+    <option value="Prolactin (PRL)-38">Prolactin (PRL) - 38</option>
+    <option value="Protein (C) Activity-320">Protein (C) Activity - 320</option>
+    <option value="Protein (S) Activity-320">Protein (S) Activity - 320</option>
+    <option value="Protein electrophoresis-200">Protein electrophoresis - 200</option>
+    <option value="Protein in 24 Hr urine-40">Protein in 24 Hr urine - 40</option>
+    <option value="Prothrombin Gene Mutation-500">Prothrombin Gene Mutation - 500</option>
+    <option value="PSA – TOTAL-75">PSA – TOTAL - 75</option>
+    <option value="PSA – FREE-80">PSA – FREE - 80</option>
+    <option value="PT - INR (Prothrombin time & conc)-25">PT - INR (Prothrombin time & conc) - 25</option>
+    <option value="PTH (Parathyroid Hormone)-110">PTH (Parathyroid Hormone) - 110</option>
+    <option value="PTT-30">PTT - 30</option>
+    <option value="Reducing Sugar In Stool-50">Reducing Sugar In Stool - 50</option>
+    <option value="Reducing Sugar In Urine-50">Reducing Sugar In Urine - 50</option>
+    <option value="Reticulocyte count (Retics)-40">Reticulocyte count (Retics) - 40</option>
+    <option value="Rh group-15">Rh group - 15</option>
+    <option value="Rheumatoid factor (RF)-25">Rheumatoid factor (RF) - 25</option>
+    <option value="RNP (Anti Ribo Nucleoprotein Ab)-500">RNP (Anti Ribo Nucleoprotein Ab) - 500</option>
+    <option value="Rose Waaler ( RW )-35">Rose Waaler ( RW ) - 35</option>
+    <option value="Rotavirus antigen in stool-140">Rotavirus antigen in stool - 140</option>
+    <option value="RPR (Rapid plasma reagin)-60">RPR (Rapid plasma reagin) - 60</option>
+    <option value="Rubella IgG-70">Rubella IgG - 70</option>
+    <option value="Rubella IgM-70">Rubella IgM - 70</option>
+    <option value="Semen analysis-50">Semen analysis - 50</option>
+    <option value="SHBG (Sex Hormone Binding Globulin)-400">SHBG (Sex Hormone Binding Globulin) - 400</option>
+    <option value="Serum Sodium -16">Serum Sodium - 16</option>
+    <option value="Stone analysis-75">Stone analysis - 75</option>
+    <option value="Stool analysis-15">Stool analysis - 15</option>
+    <option value="T3 - Free-30">T3 - Free - 30</option>
+    <option value="T3 – Total-30">T3 – Total - 30</option>
+    <option value="Free Thyroid (FT3 – FT4 –TSH)-65">Free Thyroid (FT3 – FT4 –TSH) - 65</option>
+    <option value="Total Thyroid (T3 – T4 –TSH)-65">Total Thyroid (T3 – T4 –TSH) - 65</option>
+    <option value="T4 – Free-30">T4 – Free - 30</option>
+    <option value="T4 – Total-30">T4 – Total - 30</option>
+    <option value="TB DNA by PCR Teqman Probe-600">TB DNA by PCR Teqman Probe - 600</option>
+    <option value="Quanti feron T.B gold-1200">Quanti feron T.B gold - 1200</option>
+    <option value="Tegretol (Carbamazepine)-80">Tegretol (Carbamazepine) - 80</option>
+    <option value="Testosterone (Free)-100">Testosterone (Free) - 100</option>
+    <option value="Testosterone (Total)-55">Testosterone (Total) - 70</option>
+    <option value="Thrombin Time-100">Thrombin Time - 100</option>
+    <option value="Thyroglobulin-200">Thyroglobulin - 200</option>
+    <option value="TIBC (Total iron binding capacity)-30">TIBC (Total iron binding capacity) - 30</option>
+    <option value="TLC (Ascitic)-20">TLC (Ascitic) - 20</option>
+    <option value="TORCH Profile-500">TORCH Profile - 500</option>
+    <option value="Total leucocytic count (TLC)-15">Total leucocytic count (TLC) - 15</option>
+    <option value="Total Protein-20">Total Protein - 20</option>
+    <option value="Total Protein (Ascitic)-20">Total Protein (Ascitic) - 20</option>
+    <option value="Toxoplasma IgG-70">Toxoplasma IgG - 70</option>
+    <option value="Toxoplasma IgM-70">Toxoplasma IgM - 70</option>
+    <option value="TPHA-150">TPHA - 150</option>
+    <option value="Tramadol-80">Tramadol - 80</option>
+    <option value="Transferrin-110">Transferrin - 110</option>
+    <option value="Transferrin Saturation-80">Transferrin Saturation - 80</option>
+    <option value="Triglycerides-10">Triglycerides - 10</option>
+    <option value="Troponin I (Quantitative)-200">Troponin I (Quantitative) - 200</option>
+    <option value="Troponin I ( Qualitative)-80">Troponin I ( Qualitative) - 80</option>
+    <option value="TSH-30">TSH - 30</option>
+    <option value="Urea Clearance-30">Urea Clearance - 30</option>
+    <option value="Urea in 24 hrs. Urine-12">Urea in 24 hrs. Urine - 12</option>
+    <option value="Uric acid-10">Uric acid - 10</option>
+    <option value="Uric acid in Urine-10">Uric acid in Urine - 10</option>
+    <option value="Urine Analysis-15">Urine Analysis - 15</option>
+    <option value="VDRL-50">VDRL - 50</option>
+    <option value="Vitamin B12 (Cyanocobalamine)-150">Vitamin B12 (Cyanocobalamine) - 150</option>
+    <option value="Vitamin D3 (25hydroxycolecalciferol)-150">Vitamin D3 (25hydroxycolecalciferol) - 150</option>
+    <option value="VMA (VanyllylMandelic Acid)-220">VMA (VanyllylMandelic Acid) - 220</option>
+    <option value="WBCs-15">WBCs - 15</option>
+    <option value="Widal Test-40">Widal Test - 40</option>
+    <option value="Zinc (Zn)-80">Zinc (Zn) - 80</option>
+    <option value="Zinc (Zn) Urine-80">Zinc (Zn) Urine - 80</option>
+    <option value="Ziehl - Neelsen Stain -30">Ziehl Neelsen Stain - 30</option>
+
+
+  </select>
+  <button onclick="addPatient()">Add Patient</button>
+  <button onclick="useSameTests()">Same as Previous</button>
+  <button onclick="exportToWord()">Export as Word</button>
+  <button onclick="saveToSupabase()" style="background-color: #2da44e;">Save to Cloud</button>
+  <a href="view_history.html" target="_blank"><button style="background-color: #6f42c1;">View Database</button></a>
+  <div id="connectionStatus" style="margin-top: 10px; font-weight: bold; color: #666;">Checking connection...</div>
+  <table id="patientTable">
+    <thead>
+      <tr>
+        <th colspan="6" style="text-align: center; font-size: 18px;">Lab Patient Report</th>
+      </tr>
+      <tr>
+        <th>#</th>
+        <th>Patient Name</th>
+        <th>Age</th>
+        <th>Tests</th>
+        <th>Total Price (EGP)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" style="text-align:right;"><strong>Total (EGP):</strong></td>
+        <td id="grandTotal">0.00</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    let count = 0;
+    let grandTotal = 0;
+    let lastSelectedTestValues = [];
+
+    // Constant for LocalStorage Key
+    const LS_KEY = 'lab_patients_data';
+    const LS_DATE_KEY = 'lab_patients_date';
+
+    $(document).ready(function () {
+      // Check for day expiration on load
+      checkAndLoadLocalStorage();
+
+      const nutritionalPackage = {
+        id: '__NUTRITIONAL_PACKAGE__',
+        text: 'Nutritional Package'
+      };
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+      // 23ml copy l dih ya andrew
+      const marcmenPackage = {
+        id: '__MARC_MEN_PACKAGE__',
+        text: 'Marc Men Package'
+      };
+      const marcwomenPackage = {
+        id: '__MARC_WOMEN_PACKAGE__',
+        text: 'Marc Women Package'
+      };
+      const marcbiosciencePackage = {
+        id: '__MARC_BIOSCIENCE_PACKAGE__',
+        text: 'Marc Bioscience Package'
+      };
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+      $('#tests').select2({
+        placeholder: "Type to search medical tests...",
+        width: '100%',
+        minimumInputLength: 1,
+        allowClear: true,
+        matcher: function (params, data) {
+          if ($.trim(params.term) === '') {
+            return data;
+          }
+          if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+            return data;
+          }
+          return null;
+        }
+      });
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+      // Extend dropdown results with custom item
+      $('#tests').on('select2:open', function () {
+        let observer = new MutationObserver(function (mutations, obs) {
+          $('.select2-results__options').each(function () {
+            if ($('.select2-results__option:contains("Nutritional Package")').length === 0) {
+              let term = $('.select2-search__field').val() || '';
+              if ('nutritional package'.startsWith(term.toLowerCase())) {
+                $('.select2-results__options').prepend(
+                  '<li class="select2-results__option" data-select2-id="__NUTRITIONAL_PACKAGE__" role="option">Nutritional Package</li>'
+                );
+              }
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+      /////////////////////////////////// 23ml copy l dit tany ya andrew
+      $('#tests').on('select2:open', function () {
+        let observer = new MutationObserver(function (mutations, obs) {
+          $('.select2-results__options').each(function () {
+            if ($('.select2-results__option:contains("Marc Men Package")').length === 0) {
+              let term = $('.select2-search__field').val() || '';
+              if ('NewPackage'.startsWith(term.toLowerCase())) {
+                $('.select2-results__options').prepend(
+                  '<li class="select2-results__option" data-select2-id="__MARC_MEN_PACKAGE__" role="option">Marc Men Package</li>'
+                );
+              }
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+      $('#tests').on('select2:open', function () {
+        let observer = new MutationObserver(function (mutations, obs) {
+          $('.select2-results__options').each(function () {
+            if ($('.select2-results__option:contains("Marc Women Package")').length === 0) {
+              let term = $('.select2-search__field').val() || '';
+              if ('NewPackage'.startsWith(term.toLowerCase())) {
+                $('.select2-results__options').prepend(
+                  '<li class="select2-results__option" data-select2-id="__MARC_WOMEN_PACKAGE__" role="option">Marc Women Package</li>'
+                );
+              }
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+      $('#tests').on('select2:open', function () {
+        let observer = new MutationObserver(function (mutations, obs) {
+          $('.select2-results__options').each(function () {
+            if ($('.select2-results__option:contains("Marc Bioscience Package")').length === 0) {
+              let term = $('.select2-search__field').val() || '';
+              if ('marc bioscience package'.startsWith(term.toLowerCase())) {
+                $('.select2-results__options').prepend(
+                  '<li class="select2-results__option" data-select2-id="__MARC_BIOSCIENCE_PACKAGE__" role="option">Marc Bioscience Package</li>'
+                );
+              }
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+      ///////////////////////////////// l7d hna kdh dh copy 
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+      // Listen to selecting our custom package
+      $(document).on('click', '.select2-results__option', function () {
+        if ($(this).text() === 'Nutritional Package') {
+          const groupTests = [
+            "Ziehl Neelsen Stain - 30",
+            "Culture & Sensitivity Throat Swab - 150"
+          ];
+
+          const optionValues = [];
+          groupTests.forEach(label => {
+            const opt = $("#tests option").filter(function () {
+              return $(this).text().trim() === label;
+            }).val();
+            if (opt) optionValues.push(opt);
+          });
+
+          let currentValues = $('#tests').val() || [];
+          optionValues.forEach(val => {
+            if (!currentValues.includes(val)) {
+              currentValues.push(val);
+            }
+          });
+
+          $('#tests').val(currentValues).trigger('change');
+
+          // Close the dropdown after selecting
+          $('#tests').select2('close');
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+        // 23ml copy ll if dih ya andrew 
+        if ($(this).text() === 'Marc Men Package') {
+          const groupTests = [
+            "HDL Cholesterol - 22",
+            "AFP in Serum - 74",
+            "Beta 2 Microglobulin - 120",
+            "CEA - 73",
+            "Free Thyroid (FT3 – FT4 –TSH) - 65",
+            "T3 – Total - 30",
+            "T4 – Total - 30",
+            "PSA – FREE - 80",
+            "PSA – TOTAL - 75",
+            "PTH (Parathyroid Hormone) - 110",
+            "Cortisol AM - 90",
+            "CA 19.9 - 93",
+            "Vitamin D3 (25hydroxycolecalciferol) - 150",
+            "Bilirubin (Total) - 10",
+            "Bilirubin (Direct) - 10",
+            "D dimer - 70",
+            "PTT - 30",
+            "CK Total (CPK) - 18",
+            "CK MB - 50",
+            "HbA1C (Glycated Haemoglubin) - 35",
+            "Phosphorus - 15",
+            "Potassium (K) - 16",
+            "Serum Sodium - 16",
+            "TIBC (Total iron binding capacity) - 30",
+            "Ferritin - 40",    
+            "Calcium (Total) - 10",
+            "LDH ( Lactate Dehydrogenase ) - 15",
+            "Iron - 18",
+          ];
+
+          const optionValues = [];
+          groupTests.forEach(label => {
+            const opt = $("#tests option").filter(function () {
+              return $(this).text().trim() === label;
+            }).val();
+            if (opt) optionValues.push(opt);
+          });
+
+          let currentValues = $('#tests').val() || [];
+          optionValues.forEach(val => {
+            if (!currentValues.includes(val)) {
+              currentValues.push(val);
+            }
+          });
+
+          $('#tests').val(currentValues).trigger('change');
+
+          // Close the dropdown after selecting
+          $('#tests').select2('close');
+        }
+        if ($(this).text() === 'Marc Women Package') {
+          const groupTests = [
+            "HDL Cholesterol - 22",
+            "AFP in Serum - 74",
+            "Beta 2 Microglobulin - 120",
+            "CEA - 73",
+            "Free Thyroid (FT3 – FT4 –TSH) - 65",
+            "T3 – Total - 30",
+            "T4 – Total - 30",
+            "PTH (Parathyroid Hormone) - 110",
+            "Cortisol AM - 90",
+            "CA 19.9 - 93",
+            "DHEA S (Dehydroepiandrosterone Sulphate) - 110",
+            "Vitamin D3 (25hydroxycolecalciferol) - 150",
+            "Bilirubin (Total) - 10",
+            "Bilirubin (Direct) - 10",
+            "D dimer - 70",
+            "PTT - 30",
+            "CK Total (CPK) - 18",
+            "CK MB - 50",
+            "HbA1C (Glycated Haemoglubin) - 35",
+            "Phosphorus - 15",
+            "Potassium (K) - 16",
+            "Serum Sodium - 16",
+            "TIBC (Total iron binding capacity) - 30",
+            "Ferritin - 40",
+            "Calcium (Total) - 10",
+            "LDH ( Lactate Dehydrogenase ) - 15",
+            "CA 125 - 93" ,
+            "CA 15.3 - 93" ,
+            "Iron - 18",
+          ];
+
+          const optionValues = [];
+          groupTests.forEach(label => {
+            const opt = $("#tests option").filter(function () {
+              return $(this).text().trim() === label;
+            }).val();
+            if (opt) optionValues.push(opt);
+          });
+
+          let currentValues = $('#tests').val() || [];
+          optionValues.forEach(val => {
+            if (!currentValues.includes(val)) {
+              currentValues.push(val);
+            }
+          });
+
+          $('#tests').val(currentValues).trigger('change');
+
+          // Close the dropdown after selecting
+          $('#tests').select2('close');
+        }
+        if ($(this).text() === 'Marc Bioscience Package') {
+          const groupTests = [
+            "PT - INR (Prothrombin time & conc) - 25",
+            "Bilirubin (Direct) - 10",
+            "Bilirubin (Total) - 10",
+            "HbA1C (Glycated Haemoglubin) - 35",
+            "Serum Insulin (Fasting) - 90",
+            "HDL-Cholesterol - 22"
+          ];
+
+          const optionValues = [];
+          groupTests.forEach(label => {
+            const opt = $("#tests option").filter(function () {
+              return $(this).text().trim() === label;
+            }).val();
+            if (opt) optionValues.push(opt);
+          });
+
+          let currentValues = $('#tests').val() || [];
+          optionValues.forEach(val => {
+            if (!currentValues.includes(val)) {
+              currentValues.push(val);
+            }
+          });
+
+          $('#tests').val(currentValues).trigger('change');
+
+          // Close the dropdown after selecting
+          $('#tests').select2('close');
+        }
+        // l7d hna
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+      });
+    });
+
+    function addPatient() {
+      const name = document.getElementById("name").value.trim();
+      const age = document.getElementById("age").value;
+      const selectedTests = $('#tests').select2('data');
+      lastSelectedTestValues = $('#tests').val();
+      if (!name || !age || selectedTests.length === 0) {
+        alert("Please complete all fields and select at least one test.");
+        return;
+      }
+      const testNames = selectedTests.map(item => item.text);
+      const totalPrice = selectedTests.reduce((sum, item) => {
+        const parts = item.text.split('-');
+        const priceText = parts[parts.length - 1].trim();
+        const price = parseFloat(priceText) || 0;
+        return sum + price;
+      }, 0);
+      const table = document.querySelector("#patientTable tbody");
+      const row = table.insertRow();
+      row.insertCell(0).textContent = ++count;
+      row.insertCell(1).textContent = name;
+      row.insertCell(2).textContent = age;
+      row.insertCell(3).textContent = testNames.join(', ');
+      row.insertCell(4).textContent = totalPrice.toFixed(2);
+      const cell = row.insertCell(5);
+      cell.innerHTML = `
+        <button class="actions" onclick="editPatient(this)">✏️</button>
+        <button class="actions" onclick="deletePatient(this)">🗑️</button>
+      `;
+      grandTotal += totalPrice;
+      document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+      $('#tests').val(null).trigger('change');
+
+      saveToLocalStorage();
+    }
+
+
+    function saveToLocalStorage() {
+      const table = document.querySelector("#patientTable tbody");
+      const patients = [];
+      for (let i = 0; i < table.rows.length; i++) {
+        const row = table.rows[i];
+        patients.push({
+          name: row.cells[1].textContent,
+          age: row.cells[2].textContent,
+          tests: row.cells[3].textContent,
+          price: row.cells[4].textContent
+        });
+      }
+
+      // Save data and current date/time to handle expiration
+      // We only update the date key if it's not set, or we can just rely on checking valid date on load.
+      // But user requirement: "expired after 12 am (new day)"
+      // Meaning if I save today, and open tomorrow, it should be gone.
+      // So we store the date string YYYY-MM-DD of when the data was created/modified.
+
+      // Actually, user said "new day". So simply storing the current date string (YYYY-MM-DD) 
+      // and comparing it on load is sufficient.
+
+      const today = new Date().toISOString().split('T')[0];
+
+      localStorage.setItem(LS_KEY, JSON.stringify(patients));
+      localStorage.setItem(LS_DATE_KEY, today);
+    }
+
+    function checkAndLoadLocalStorage() {
+      const storedDate = localStorage.getItem(LS_DATE_KEY);
+      const today = new Date().toISOString().split('T')[0];
+
+      if (storedDate && storedDate !== today) {
+        // Expired (new day)
+        console.log("Data expired. Clearing local storage.");
+        localStorage.removeItem(LS_KEY);
+        localStorage.removeItem(LS_DATE_KEY);
+        return;
+      }
+
+      const storedData = localStorage.getItem(LS_KEY);
+      if (storedData) {
+        const patients = JSON.parse(storedData);
+        const table = document.querySelector("#patientTable tbody");
+
+        patients.forEach(p => {
+          const row = table.insertRow();
+          row.insertCell(0).textContent = ++count;
+          row.insertCell(1).textContent = p.name;
+          row.insertCell(2).textContent = p.age;
+          row.insertCell(3).textContent = p.tests;
+          row.insertCell(4).textContent = p.price;
+          const cell = row.insertCell(5);
+          cell.innerHTML = `
+                    <button class="actions" onclick="editPatient(this)">✏️</button>
+                    <button class="actions" onclick="deletePatient(this)">🗑️</button>
+                `;
+          grandTotal += parseFloat(p.price) || 0;
+        });
+        document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+      }
+    }
+
+    function useSameTests() {
+      if (lastSelectedTestValues.length === 0) {
+        alert("No previous patient test data found.");
+        return;
+      }
+      $('#tests').val(lastSelectedTestValues).trigger('change');
+    }
+
+    function editPatient(btn) {
+      const row = btn.closest("tr");
+      const cells = row.cells;
+      const name = cells[1].textContent;
+      const age = cells[2].textContent;
+      const tests = cells[3].textContent;
+      document.getElementById("name").value = name;
+      document.getElementById("age").value = age;
+      const options = [...document.querySelectorAll('#tests option')];
+      const selectedValues = tests.split(', ').map(testName =>
+        options.find(opt => opt.textContent === testName)?.value
+      ).filter(Boolean);
+      $('#tests').val(selectedValues).trigger('change');
+      lastSelectedTestValues = selectedValues;
+      deletePatient(btn);
+    }
+
+    function deletePatient(btn) {
+      const row = btn.closest("tr");
+      const deletedPrice = parseFloat(row.cells[4].textContent);
+      row.remove();
+      grandTotal -= deletedPrice;
+      document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+      const table = document.querySelector("#patientTable tbody");
+      for (let i = 0; i < table.rows.length; i++) {
+        table.rows[i].cells[0].textContent = i + 1;
+      }
+      count = table.rows.length;
+      saveToLocalStorage();
+    }
+
+    function exportToWord() {
+      const today = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = today.toLocaleDateString('en-US', options);
+      const labLogoBase64 = "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";
+
+      let html = `
+        <html>
+            <head>
+                <meta charset='utf-8'>
+                <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+  }
+  .cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 200px;
+  }
+  .cover img {
+    width: 350px;
+    height: auto;
+    display: block;
+    margin: auto;
+  }
+  .cover p {
+    margin-top: 40px;
+    font-size: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+  }
+  thead th {
+    background-color: #f2f2f2;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 12px;
+    border: 1px solid #000;
+    text-align: center;
+  }
+  tbody td {
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #000;
+    word-wrap: break-word;
+  }
+  tbody td:nth-child(1) {
+    width: 5%;
+    text-align: center;
+  }
+  tbody td:nth-child(2) {
+    width: 30%;
+  }
+  tbody td:nth-child(3) {
+    width: 5%;
+    text-align: center;
+  }
+  tbody td:nth-child(4) {
+    width: 60%;
+  }
+</style>
+</style>
+            </head>
+            <body>
+                <div class="report-header">
+                <div style="text-align: center;">
+                    <img src="data:image/png;base64,` + labLogoBase64 + `" alt="Lab Logo" style="width: 300px; height: auto; ">
+                  <p>Date: ${formattedDate}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Patient Name</th>
+                            <th>Age</th>
+                            <th>Medical Tests</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+
+      const table = document.querySelector("#patientTable tbody");
+      for (let i = 0; i < table.rows.length; i++) {
+        const cells = table.rows[i].cells;
+        const patientName = cells[1].textContent;
+        const patientAge = cells[2].textContent;
+        const testsWithPrices = cells[3].textContent;
+        const testsArray = testsWithPrices.split(', ').map(test => {
+          const parts = test.split('-');
+          return parts[0].trim();
+        }).map(testName => `• ${testName}`);
+        const formattedTests = testsArray.join('<br>');
+        html += `<tr>
+            <td>${i + 1}</td>
+            <td>${patientName}</td>
+            <td>${patientAge}</td>
+            <td>${formattedTests}</td>
+        </tr>`;
+      }
+
+      html += `
+                    </tbody>
+                </table>
+            </body>
+        </html>`;
+
+      const blob = htmlDocx.asBlob(html);
+      const reportFileName = 'Lab_Patient_Report_' + today.toISOString().split('T')[0] + '.docx';
+      saveAs(blob, reportFileName);
+    }
+  </script>
+</body>
+
+</html>
