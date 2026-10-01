@@ -299,6 +299,7 @@
     <option value="HBV DNA PCR Qualitative-225">HBV DNA PCR Qualitative - 225</option>
     <option value="HBV DNA PCR Quantitative-225">HBV DNA PCR Quantitative - 225</option>
     <option value="HCV IgG-45">HCV IgG - 45</option>
+    <option value="HCV AB-45">HCV AB - 45</option>
     <option value="HDL Cholesterol-22">HDL Cholesterol - 22</option>
     <option value="Helicobacter Pylori Abs-70">Helicobacter Pylori Abs - 70</option>
     <option value="Helicobacter Pylori Ag.-70">Helicobacter Pylori Ag. - 70</option>
@@ -495,7 +496,10 @@
         id: '__MARC_BIOSCIENCE_PACKAGE__',
         text: 'Marc Bioscience Package'
       };
-      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+       const turkeyembassyPackage = {
+        id: '__TURKEY_EMBASSY_PACKAGE__',
+        text: 'Turkey Embassy Package'
+      };  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
       $('#tests').select2({
         placeholder: "Type to search medical tests...",
@@ -568,6 +572,21 @@
               if ('marc bioscience package'.startsWith(term.toLowerCase())) {
                 $('.select2-results__options').prepend(
                   '<li class="select2-results__option" data-select2-id="__MARC_BIOSCIENCE_PACKAGE__" role="option">Marc Bioscience Package</li>'
+                );
+              }
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+  $('#tests').on('select2:open', function () {
+        let observer = new MutationObserver(function (mutations, obs) {
+          $('.select2-results__options').each(function () {
+            if ($('.select2-results__option:contains("Turkey Embassy Package")').length === 0) {
+              let term = $('.select2-search__field').val() || '';
+              if ('nutritional package'.startsWith(term.toLowerCase())) {
+                $('.select2-results__options').prepend(
+                  '<li class="select2-results__option" data-select2-id="__TURKEY_EMBASSY_PACKAGE__" role="option">Turkey Embassy Package</li>'
                 );
               }
             }
@@ -743,7 +762,35 @@
           // Close the dropdown after selecting
           $('#tests').select2('close');
         }
-        // l7d hna
+        
+        if ($(this).text() === 'Turkey Embassy Package') {
+          const groupTests = [
+            "HBs Ag. - 50",
+            "HCV AB - 45",
+            "HIV 1&2 Ag/Ab Combo - 85",
+            "VDRL - 50"
+          ];
+
+          const optionValues = [];
+          groupTests.forEach(label => {
+            const opt = $("#tests option").filter(function () {
+              return $(this).text().trim() === label;
+            }).val();
+            if (opt) optionValues.push(opt);
+          });
+
+          let currentValues = $('#tests').val() || [];
+          optionValues.forEach(val => {
+            if (!currentValues.includes(val)) {
+              currentValues.push(val);
+            }
+          });
+
+          $('#tests').val(currentValues).trigger('change');
+
+          // Close the dropdown after selecting
+          $('#tests').select2('close');
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
       });
     });
